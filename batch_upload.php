@@ -56,7 +56,7 @@ if (isset($_FILES["zipfile"]) && $_FILES["zipfile"]["error"] != 4 && isset($_FIL
 					require_once ("BDecode.php");
 					require_once ("BEncode.php");
 					
-					$tracker_url = $website_url . substr($_SERVER['REQUEST_URI'], 0, -16) . $announceurl;
+					$tracker_url = $announce_url0 OR $announce_url1 OR $announce_url2 OR $announce_url3 OR $announce_url4;
 					
 					$array = BDecode($buffer);
 					if (!$array)
@@ -75,15 +75,16 @@ if (isset($_FILES["zipfile"]) && $_FILES["zipfile"]["error"] != 4 && isset($_FIL
 						}
 						if ($found_tracker == false)
 						{
-							echo errorMessage() . "Error: Multiple trackers were found but none of them match the
-								announce URL:<br>$tracker_url<br>Please re-create and re-upload the torrent.</p>\n";
+							echo errorMessage() . "Error: Multiple trackers were found but none of them match the primary
+								announce URL:<br>$tracker_url<br><br>or any alternate URLs:<br>$announce_url1<br>$announce_url2<br>$announce_url3<br>$announce_url4<br><br>Please re-create and re-upload the torrent.</p>\n";
 							$error_status = false;
 							exit;
 						}
 					} else {
 						//a single tracker is listed
 						if (strtolower($array["announce"]) != $tracker_url) {
-							echo errorMessage() . "Error: The tracker announce URL does not match this:<br>$tracker_url<br>Please re-create and re-upload the torrent.</p>\n";
+							echo errorMessage() . "Error: The tracker announce URL does not match the primary
+								announce URL:<br>$tracker_url<br><br>or any alternate URLs:<br>$announce_url1<br>$announce_url2<br>$announce_url3<br>$announce_url4<br><br>Please re-create and re-upload the torrent.</p>\n";
 							$error_status = false;
 							exit;
 						}
@@ -176,7 +177,7 @@ else
 {
 	//display upload box
 	?>
-	<?php require("config.php"); $tracker_url = $website_url . substr($_SERVER['REQUEST_URI'], 0, -16) . $announceurl; ?>
+	<?php require("config.php"); $tracker_url = $announce_url0; $alt_tracker_url1 = $announce_url1;	$alt_tracker_url2 = $announce_url2;	$alt_tracker_url3 = $announce_url3;	$alt_tracker_url4 = $announce_url4;?>
 	<p>This page lets you upload a zip file containing multiple torrents and add them into the database.  The
 	zip file cannot have any folders in it.  This requires that you are running PHP with compiled zip support.
 	If you are unsure, check with your system administrator or phpinfo().  Any torrents that already exist in
@@ -189,7 +190,8 @@ else
 	[1] Even if the custom title option is enabled, the torrents will have the same title as the filename.  If you
 	have the custom title option enabled, you may change the titles to your preference after the batch upload has
 	finished.<br>[2] The torrents you are batch uploading should include the following Tracker URL:
-	<b><?php echo $tracker_url ?></b></p>
+	<br><b><?php echo $tracker_url ?></b><br> or its alternate tracker URLs: <br><b><?php echo $alt_tracker_url1;?> <br>
+	<?php echo $alt_tracker_url2;?> <br> <?php echo $alt_tracker_url3;?> <br> <?php echo $alt_tracker_url4; ?></b></p>
 	
 	<?php
 	if (function_exists("zip_open"))

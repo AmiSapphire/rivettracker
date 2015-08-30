@@ -1,4 +1,30 @@
 <?php
+//if config.php file not available, error out
+if (!file_exists("config.php"))
+{
+	echo "<font color=red><strong>Error: config.php file is not available.  Did you forget to upload it?" .
+	" If you haven't run the installer yet, please do so <a href=\"install.php\">here.</a></strong></font>";
+	exit();
+}
+
+require_once ("config.php");
+require_once ("funcsv2.php");
+
+//Check session only if hiddentracker is TRUE
+if ($hiddentracker == true)
+{
+	session_start();
+	
+	if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
+	{
+		//check fails
+		header("Location: authenticate.php?status=indexlogin");
+		exit();
+	}
+}
+?>
+
+<?php
 
 header("Content-type: text/plain");
 header("Pragma: no-cache");
@@ -125,7 +151,7 @@ if (!isset($_GET["port"]) || !isset($_GET["downloaded"]) || !isset($_GET["upload
 }
 
 $port = filterInt($_GET["port"]);
-$ip = filterFloat(str_replace("::ffff:", "", $_SERVER["REMOTE_ADDR"]));
+$ip = filterChar(str_replace("::ffff:", "", $_SERVER["REMOTE_ADDR"]));
 $downloaded = filterFloat($_GET["downloaded"]);
 $uploaded = filterFloat($_GET["uploaded"]);
 $left = filterFloat($_GET["left"]);
@@ -196,13 +222,17 @@ function start($info_hash, $ip, $port, $peer_id, $left)
 		}
 	  }
 	}
+	
+//	if (preg_match("/^[a-f]+$/i", $ip)) { // Disable compact announce with IPv6
+//		$compact = 0;
+//	}
 
 	if (isset($_GET["ip"]) && $GLOBALS["ip_override"])
 	{
 		// compact check: valid IP address:
 		if (ip2long($_GET["ip"]) == -1)
 			showError("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
-		$ip = filterFloat($_GET["ip"]);
+		$ip = filterChar($_GET["ip"]);
 	}
 
 	if ($left == 0)

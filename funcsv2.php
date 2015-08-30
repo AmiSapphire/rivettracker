@@ -363,6 +363,13 @@ function sendRandomPeers($info_hash)
 			echo str_pad($row[0], 6, chr(32));
 	}
 	else
+	if ($column == "compact")
+	{
+		echo (mysql_num_rows($result) * 18) . ":";
+		while ($row = mysql_fetch_row($result))
+			echo str_pad($row[0], 18, chr(32));
+	}
+	else
 	{
 		echo "l";
 		while ($row = mysql_fetch_row($result))

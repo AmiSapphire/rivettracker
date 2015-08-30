@@ -1,4 +1,30 @@
 <?php
+//if config.php file not available, error out
+if (!file_exists("config.php"))
+{
+	echo "<font color=red><strong>Error: config.php file is not available.  Did you forget to upload it?" .
+	" If you haven't run the installer yet, please do so <a href=\"install.php\">here.</a></strong></font>";
+	exit();
+}
+
+require_once ("config.php");
+require_once ("funcsv2.php");
+
+//Check session only if hiddentracker is TRUE
+if ($hiddentracker == true)
+{
+	session_start();
+	
+	if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
+	{
+		//check fails
+		header("Location: authenticate.php?status=indexlogin");
+		exit();
+	}
+}
+?>
+
+<?php
 
 require_once("BDecode.php");
 require_once("BEncode.php");

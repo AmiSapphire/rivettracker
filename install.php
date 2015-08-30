@@ -21,7 +21,6 @@ if (isset($_POST["download"]))
 	print "\$GLOBALS['hiddentracker'] = " . htmlspecialchars($_POST["hiddentracker"]) . ";\n";
 	print "\$GLOBALS['scrape'] = " . htmlspecialchars($_POST["scrape"]) . ";\n";
 	print "\$GLOBALS['customtitle'] = " . htmlspecialchars($_POST["customtitle"]) . ";\n";
-	print "\$announceurl = '" . htmlspecialchars($_POST["announceurl"]) . "';\n";
 	print "\$GLOBALS['indexpagelimitspecify'] = " . htmlspecialchars($_POST["indexpagelimitspecify"]) . ";\n";
 	print "\$GLOBALS['statspagelimitspecify'] = " . htmlspecialchars($_POST["statspagelimitspecify"]) . ";\n";
 	print "\$GLOBALS['report_interval'] = " . htmlspecialchars($_POST["report_interval"]) . ";\n";
@@ -45,6 +44,11 @@ if (isset($_POST["download"]))
 	print "\$rss_link = '" . htmlspecialchars($_POST["rss_link"]) . "';\n";
 	print "\$rss_description = '" . htmlspecialchars($_POST["rss_description"]) . "';\n";
 	print "\$website_url = '" . htmlspecialchars($_POST['website_url']) . "';\n";
+	print "\$announce_url0 = '" . htmlspecialchars($_POST['announce_url0']) . "';\n";
+	print "\$announce_url1 = '" . htmlspecialchars($_POST['announce_url1']) . "';\n";
+	print "\$announce_url2 = '" . htmlspecialchars($_POST['announce_url2']) . "';\n";
+	print "\$announce_url3 = '" . htmlspecialchars($_POST['announce_url3']) . "';\n";
+	print "\$announce_url4 = '" . htmlspecialchars($_POST['announce_url4']) . "';\n";
 	print "\$GLOBALS['max_upload_rate'] = " . htmlspecialchars($_POST['max_upload_rate']) . ";\n";
 	print "\$GLOBALS['max_uploads'] = " . htmlspecialchars($_POST['max_uploads']) . ";\n";
 	print "\$dateformat = '" . htmlspecialchars($_POST['dateformat']) . "';\n";
@@ -334,17 +338,6 @@ echo ("<br><br>");
 		different from the filename.</td>
 		<td><input type="checkbox" name="customtitle"></td></tr>
 
-		<tr><td>Short Announce URL: You can enable the short announce feature, making the URL end in /announce for
-		your tracker.  You should not utilize both tracker URL forms in one torrent at the same time, or you will get
-		inconsistent results.  Note: You will need the provided htaccess file, have URL rewrite capabilities, and have
-		it properly set up to use this feature.  Otherwise, leave it disabled.</td>
-		<td><select name="announceurl" id="announceurl">
-		<option title="disabled" value="announce.php"<?php if($temp == "announce.php") echo " selected=\"selected\"";?>>disabled</option>
-		<option title="enabled" value="announce"<?php if($temp == "announce") echo " selected=\"selected\"";?>>enabled</option>
-		</select>
-		</td>
-		</tr>
-
 		<tr><td><span class="notice">* </span>Lists the number of torrents on each page on your torrent tracker list.  Default is 10.</td>
 		<td><input type="text" name="indexpagelimitspecify" size="40" value="10"></td></tr>
 
@@ -421,6 +414,21 @@ echo ("<br><br>");
 		
 		<tr><td><span class="notice">* </span>Main website url that the tracker runs on, example: http://www.mywebsite.com</td>
 		<td><input type="text" name="website_url" size="40"></td></tr>
+
+		<tr><td><span class="notice">* </span>Primary announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+		<td><input type="text" name="announce_url0" size="40"></td></tr>
+
+		<tr><td>Secondary website url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+		<td><input type="text" name="announce_url1" size="40"></td></tr>
+
+		<tr><td>Tertiary website url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+		<td><input type="text" name="announce_url2" size="40"></td></tr>
+
+		<tr><td>Quaternary website url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+		<td><input type="text" name="announce_url3" size="40"></td></tr>
+
+		<tr><td>Quinary website url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+		<td><input type="text" name="announce_url4" size="40"></td></tr>
 		
 		<tr><td><span class="notice">* </span>For HTTP seeding, this is the maximum total upload rate per second in kilobytes, for example 100 would be 100 KB/s</td>
 		<td><input type="text" name="max_upload_rate" size="40" value="100"></td></tr>
@@ -509,7 +517,7 @@ echo ("<br><br>");
 	if (isset($_POST["config"]))
 	{
 		//check required entries for values, if blank: error out
-		if ($_POST["announceurl"] == "")
+		if ($_POST["announce_url0"] == "")
 		{
 			echo errorMessage() . "Error: The announce URL is blank.</p>";
 			exit();
@@ -589,6 +597,11 @@ echo ("<br><br>");
 			echo errorMessage() . "Error: The website URL does not start with http:// or is blank.</p>";
 			exit();
 		}
+		if ($_POST["announce_url0"] == "" || Substr($_POST["announce_url0"], 0, 7) != "http://")
+		{
+			echo errorMessage() . "Error: The announce URL does not start with http:// or is blank.</p>";
+			exit();
+		}
 		if (!is_numeric($_POST["max_upload_rate"]) || $_POST["max_upload_rate"] == "" || $_POST["max_upload_rate"] <= 0)
 		{
 			echo errorMessage() . "Error: The maximum upload rate is not an integer, a negative number, or is blank.</p>";
@@ -660,7 +673,6 @@ echo ("<br><br>");
 			"\$GLOBALS['hiddentracker'] = " . $hiddentracker . ";\n" .
 			"\$GLOBALS['scrape'] = " . $scrape . ";\n" .
 			"\$GLOBALS['customtitle'] = " . $customtitle . ";\n" .
-			"\$announceurl = " . htmlspecialchars($_POST["announceurl"]) . ";\n" .
 			"\$GLOBALS['indexpagelimitspecify'] = " . htmlspecialchars($_POST["indexpagelimitspecify"]) . ";\n" .
 			"\$GLOBALS['statspagelimitspecify'] = " . htmlspecialchars($_POST["statspagelimitspecify"]) . ";\n" .
 			"\$GLOBALS['report_interval'] = " . htmlspecialchars($_POST["report_interval"]) . ";\n" .
@@ -684,6 +696,11 @@ echo ("<br><br>");
 			"\$rss_link = '" . htmlspecialchars($_POST["rss_link"]) . "';\n" .
 			"\$rss_description = '" . htmlspecialchars(addquotes($_POST["rss_description"])) . "';\n" .
 			"\$website_url = '" . htmlspecialchars($_POST["website_url"]) . "';\n" .
+			"\$announce_url0 = '" . htmlspecialchars($_POST["announce_url0"]) . "';\n" .
+			"\$announce_url1 = '" . htmlspecialchars($_POST["announce_url1"]) . "';\n" .
+			"\$announce_url2 = '" . htmlspecialchars($_POST["announce_url2"]) . "';\n" .
+			"\$announce_url3 = '" . htmlspecialchars($_POST["announce_url3"]) . "';\n" .
+			"\$announce_url4 = '" . htmlspecialchars($_POST["announce_url4"]) . "';\n" .
 			"\$GLOBALS['max_upload_rate'] = " . htmlspecialchars($_POST['max_upload_rate']) . ";\n" .
 			"\$GLOBALS['max_uploads'] = " . htmlspecialchars($_POST['max_uploads']) . ";\n" .
 			"\$dateformat = '" . htmlspecialchars($_POST["dateformat"]) . "';\n" .
@@ -708,7 +725,6 @@ echo ("<br><br>");
 			<input type="hidden" name="hiddentracker" value="<?php if (isset($_POST['hiddentracker']) AND $_POST['hiddentracker'] == 'on') echo 'true'; else echo 'false';?>">
 			<input type="hidden" name="scrape" value="<?php if (isset($_POST['scrape']) AND $_POST['scrape'] == 'on') echo 'true'; else echo 'false';?>">
 			<input type="hidden" name="customtitle" value="<?php if (isset($_POST['customtitle']) AND $_POST['customtitle'] == 'on') echo 'true'; else echo 'false';?>">
-			<input type="hidden" name="announceurl" value="<?php echo $_POST['announceurl'];?>">
 			<input type="hidden" name="indexpagelimitspecify" value="<?php echo $_POST['indexpagelimitspecify'];?>">
 			<input type="hidden" name="statspagelimitspecify" value="<?php echo $_POST['statspagelimitspecify'];?>">
 			<input type="hidden" name="report_interval" value="<?php echo $_POST['report_interval'];?>">
@@ -732,6 +748,11 @@ echo ("<br><br>");
 			<input type="hidden" name="rss_link" value="<?php echo $_POST['rss_link'];?>">
 			<input type="hidden" name="rss_description" value="<?php echo $_POST['rss_description'];?>">
 			<input type="hidden" name="website_url" value="<?php echo $_POST['website_url'];?>">
+			<input type="hidden" name="announce_url0" value="<?php echo $_POST['announce_url0'];?>">
+			<input type="hidden" name="announce_url1" value="<?php echo $_POST['announce_url1'];?>">
+			<input type="hidden" name="announce_url2" value="<?php echo $_POST['announce_url2'];?>">
+			<input type="hidden" name="announce_url3" value="<?php echo $_POST['announce_url3'];?>">
+			<input type="hidden" name="announce_url4" value="<?php echo $_POST['announce_url4'];?>">
 			<input type="hidden" name="max_upload_rate" value="<?php echo $_POST['max_upload_rate'];?>">
 			<input type="hidden" name="max_uploads" value="<?php echo $_POST['max_uploads'];?>">
 			<input type="hidden" name="dateformat" value="<?php echo $_POST['dateformat'];?>">

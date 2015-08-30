@@ -22,7 +22,7 @@ if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
 <body>
 
 <?php
-$tracker_url = $website_url . substr($_SERVER['PHP_SELF'], 0, -15) . $announceurl;
+$tracker_url = $announce_url0 OR $announce_url1 OR $announce_url2 OR $announce_url3 OR $announce_url4;
 
 if (isset($_FILES["torrent"]))
 	addTorrent();
@@ -34,7 +34,7 @@ endOutput();
 function addTorrent()
 {
 	require ("config.php");
-	$tracker_url = $website_url . substr($_SERVER['PHP_SELF'], 0, -15) . $announceurl;
+	$tracker_url = $announce_url0 OR $announce_url1 OR $announce_url2 OR $announce_url3 OR $announce_url4;
 	
 	$hash = strtolower($_POST["hash"]);
 
@@ -70,15 +70,16 @@ function addTorrent()
 			}
 			if ($found_tracker == false)
 			{
-				echo errorMessage() . "Error: Multiple trackers were found but none of them match the
-					announce URL:<br>$tracker_url<br>Please re-create and re-upload the torrent.</p>\n";
+				echo errorMessage() . "Error: Multiple trackers were found but none of them match the primary
+					announce URL:<br>$tracker_url<br><br>or any alternate URLs:<br>$announce_url1<br>$announce_url2<br>$announce_url3<br>$announce_url4<br><br>Please re-create and re-upload the torrent.</p>\n";
 				endOutput();
 				exit;
 			}
 		} else {
 			//a single tracker is listed
 			if (strtolower($array["announce"]) != $tracker_url) {
-				echo errorMessage() . "Error: The tracker announce URL does not match this:<br>$tracker_url<br>Please re-create and re-upload the torrent.</p>\n";
+				echo errorMessage() . "Error: The tracker announce URL does not match the primary
+					announce URL:<br>$tracker_url<br><br>or any alternate URLs:<br>$announce_url1<br>$announce_url2<br>$announce_url3<br>$announce_url4<br><br>Please re-create and re-upload the torrent.</p>\n";
 				endOutput();
 				exit;
 			}
@@ -235,12 +236,17 @@ function addTorrent()
 function endOutput() 
 {
 	require ("config.php");
-	$tracker_url = $website_url . substr($_SERVER['PHP_SELF'], 0, -15) . $announceurl;
+	$tracker_url = $announce_url0;
+	$alt_tracker_url1 = $announce_url1;
+	$alt_tracker_url2 = $announce_url2;
+	$alt_tracker_url3 = $announce_url3;
+	$alt_tracker_url4 = $announce_url4;
 	?>
 	<p align="right"><a href="./docs/help.html"><img src="images/help.png" border="0" class="icon" alt="Help" title="Help" /></a><a href="./docs/help.html">Help</a></p>
 	<div class="center">
 	<h1>Add Torrent to Tracker Database</h1>
-	<h3>Tracker URL: <?php echo $tracker_url;?></h3>
+	<h3>Tracker URL: <br> <?php echo $tracker_url;?></h3>
+	<h4>Alternate Tracker URLs: <br> <?php echo $alt_tracker_url1;?> <br> <?php echo $alt_tracker_url2;?> <br> <?php echo $alt_tracker_url3;?> <br> <?php echo $alt_tracker_url4; ?> </h4>
 	<form enctype="multipart/form-data" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
 	<table>
 	<tr>

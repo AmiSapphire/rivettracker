@@ -2,21 +2,12 @@
 
 require_once ("config.php");
 
-//Check session only if hiddentracker is TRUE
-if ($hiddentracker == true)
+session_start();
+
+if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
 {
-	session_start();
-	
-	if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
-	{
-		//check fails
-		header("Location: authenticate.php?status=error");
-		exit();
-	}
-}
-else
-{
-	//don't run
+	//check fails
+	header("Location: authenticate.php?status=session");
 	exit();
 }
 

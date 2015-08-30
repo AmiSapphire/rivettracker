@@ -60,17 +60,6 @@ if (!isset($_POST["saveconfig"]))
 	<td><input type="checkbox" value="<?php if($temp == "true") echo "on"; else echo "off"?>" name="customtitle"<?php if ($temp == "true") echo " checked";?>></td></tr>
 	<?php
 	$temp = fgets($fr);
-	$temp = substr($temp, strpos($temp, "=")+3, -3);
-	?>
-	<tr><td>Short Announce URL: You can turn on the short announce feature, making the URL end in /announce for your tracker. You should not utilize both tracker URL forms in one torrent at the same time, or you will get inconsistent results. Note: You will need the provided htaccess file, have URL rewrite capabilities, and have it properly set up to use this feature. Otherwise, leave it disabled.</td>
-	<td><select name="announceurl" id="announceurl">
-	<option title="disabled" value="announce.php"<?php if($temp == "announce.php") echo " selected=\"selected\"";?>>disabled</option>
-	<option title="enabled" value="announce"<?php if($temp == "announce") echo " selected=\"selected\"";?>>enabled</option>
-	</select>
-	</td>
-	</tr>
-	<?php
-	$temp = fgets($fr);
 	$temp = substr($temp, strpos($temp, "=")+2, -2);
 	?>
 	<tr><td><span class="notice">*</span> Lists the number of torrents on each page on your torrent tracker list. Default is 10.</td>
@@ -233,8 +222,38 @@ if (!isset($_POST["saveconfig"]))
 	$temp = fgets($fr);
 	$temp = substr($temp, strpos($temp, "=")+3, -3);
 	?>
-	<tr><td><span class="notice">*</span> Main website url that the tracker runs on, example: http://www.mywebsite.com</td>
+	<tr><td><span class="notice">*</span> Website url that the tracker runs on, example: http://www.mywebsite.com</td>
 	<td><input type="text" name="website_url" size="40" value="<?php echo $temp;?>"></td></tr>
+	<?php
+	$temp = fgets($fr);
+	$temp = substr($temp, strpos($temp, "=")+3, -3);
+	?>
+	<tr><td><span class="notice">*</span> Main announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+	<td><input type="text" name="announce_url0" size="40" value="<?php echo $temp;?>"></td></tr>
+	<?php
+	$temp = fgets($fr);
+	$temp = substr($temp, strpos($temp, "=")+3, -3);
+	?>
+	<tr><td>Secondary announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+	<td><input type="text" name="announce_url1" size="40" value="<?php echo $temp;?>"></td></tr>
+	<?php
+	$temp = fgets($fr);
+	$temp = substr($temp, strpos($temp, "=")+3, -3);
+	?>
+	<tr><td>Tertiary announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+	<td><input type="text" name="announce_url2" size="40" value="<?php echo $temp;?>"></td></tr>
+	<?php
+	$temp = fgets($fr);
+	$temp = substr($temp, strpos($temp, "=")+3, -3);
+	?>
+	<tr><td>Quaternary announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+	<td><input type="text" name="announce_url3" size="40" value="<?php echo $temp;?>"></td></tr>
+	<?php
+	$temp = fgets($fr);
+	$temp = substr($temp, strpos($temp, "=")+3, -3);
+	?>
+	<tr><td>Quinary announce url that the tracker runs on, example: http://www.mywebsite.com/tracker/announce</td>
+	<td><input type="text" name="announce_url4" size="40" value="<?php echo $temp;?>"></td></tr>
 	<?php
 	$temp = fgets($fr);
 	$temp = substr($temp, strpos($temp, "=")+2, -2);
@@ -342,7 +361,7 @@ if (!isset($_POST["saveconfig"]))
 if (isset($_POST["saveconfig"]))
 {
 	//check required entries for values, if blank: error out
-	if ($_POST["announceurl"] == "")
+	if ($_POST["announce_url0"] == "")
 	{
 		echo errorMessage() . "Error: The announce URL is blank.</p>";
 		exit();
@@ -409,7 +428,12 @@ if (isset($_POST["saveconfig"]))
 	}
 	if ($_POST["website_url"] == "" || Substr($_POST["website_url"], 0, 7) != "http://")
 	{
-		echo errorMessage() . "Error: The website URL does not start with http:// or is blank.</p>";
+		echo errorMessage() . "Error: The website URL list does not start with http:// or is blank.</p>";
+		exit();
+	}
+	if ($_POST["announce_url0"] == "" || Substr($_POST["announce_url0"], 0, 7) != "http://")
+	{
+		echo errorMessage() . "Error: The announce URL list does not start with http:// or is blank.</p>";
 		exit();
 	}
 	if (!is_numeric($_POST["max_upload_rate"]) || $_POST["max_upload_rate"] == "" || $_POST["max_upload_rate"] <= 0)
@@ -496,7 +520,6 @@ if (isset($_POST["saveconfig"]))
 		"\$GLOBALS['hiddentracker'] = " . $hiddentracker . ";\n" .
 		"\$GLOBALS['scrape'] = " . $scrape . ";\n" .
 		"\$GLOBALS['customtitle'] = " . $customtitle . ";\n" .
-		"\$announceurl = '" . htmlspecialchars($_POST["announceurl"]) . "';\n" .
 		"\$GLOBALS['indexpagelimitspecify'] = " . htmlspecialchars($_POST["indexpagelimitspecify"]) . ";\n" .
 		"\$GLOBALS['statspagelimitspecify'] = " . htmlspecialchars($_POST["statspagelimitspecify"]) . ";\n" .
 		"\$GLOBALS['report_interval'] = " . htmlspecialchars($_POST["report_interval"]) . ";\n" .
@@ -520,6 +543,11 @@ if (isset($_POST["saveconfig"]))
 		"\$rss_link = '" . htmlspecialchars($_POST["rss_link"]) . "';\n" .
 		"\$rss_description = '" . htmlspecialchars(addquotes($_POST["rss_description"])) . "';\n" .
 		"\$website_url = '" . htmlspecialchars($_POST["website_url"]) . "';\n" .
+		"\$announce_url0 = '" . htmlspecialchars($_POST["announce_url0"]) . "';\n" .
+		"\$announce_url1 = '" . htmlspecialchars($_POST["announce_url1"]) . "';\n" .
+		"\$announce_url2 = '" . htmlspecialchars($_POST["announce_url2"]) . "';\n" .
+		"\$announce_url3 = '" . htmlspecialchars($_POST["announce_url3"]) . "';\n" .
+		"\$announce_url4 = '" . htmlspecialchars($_POST["announce_url4"]) . "';\n" .
 		"\$GLOBALS['max_upload_rate'] = " . htmlspecialchars($_POST['max_upload_rate']) . ";\n" .
 		"\$GLOBALS['max_uploads'] = " . htmlspecialchars($_POST['max_uploads']) . ";\n" .
 		"\$dateformat = '" . htmlspecialchars($_POST["dateformat"]) . "';\n" .

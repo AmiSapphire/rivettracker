@@ -321,7 +321,11 @@ if ($GLOBALS["customtitle"] != "true")
 		echo "&dn=".rawurlencode($data[9]);
 		else echo "&dn=".rawurlencode($data[5]);
 		//tracker url
-		echo "&tr=".$website_url . substr($_SERVER['PHP_SELF'], 0, -9) . $announceurl;
+		echo "&tr=".$announce_url0;
+		echo "&tr=".$announce_url1;
+		echo "&tr=".$announce_url2;
+		echo "&tr=".$announce_url3;
+		echo "&tr=".$announce_url4;
 	echo "'>(Magnet";
 	echo "<img src='images/magnet-icon.gif' border='0' class='icon' alt='Magnet Link' title='Magnet Link' />";
 	echo ")</a>";
