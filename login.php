@@ -15,6 +15,7 @@ if (md5($_POST['f_user'].$_POST['f_pass']) == $admin_password && $_POST['f_user'
 	//successful admin login
 	session_start();
 	$_SESSION['admin_logged_in'] = true;
+	$_SESSION['username'] = $admin_username;
 	header("Location: admin.php");
 	exit();
 }
@@ -24,6 +25,7 @@ if (md5($_POST['f_user'].$_POST['f_pass']) == $upload_password && $_POST['f_user
 	//successful upload login
 	session_start();
 	$_SESSION['upload_logged_in'] = true;
+	$_SESSION['username'] = $upload_username;
 	header("Location: index.php");
 	exit();
 }
