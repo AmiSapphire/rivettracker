@@ -71,13 +71,13 @@ if (preg_match("/^Mozilla|^Opera|^Links|^Lynx/i", $agent))
 			if (isset($_GET["info_hash"]))
 			{
 				if (get_magic_quotes_gpc())
-					$info_hash = stripslashes(trim(strip_tags($_GET["info_hash"])));
+					$info_hash = stripslashes($_GET["info_hash"]);
 				else
-					$info_hash = trim(strip_tags($_GET["info_hash"]));
+					$info_hash = $_GET["info_hash"];
 				if (strlen($info_hash) == 20)
-					$info_hash = filterChar(bin2hex($info_hash));
+					$info_hash = bin2hex($info_hash);
 				else if (strlen($info_hash) == 40)
-					filterInt(verifyHash($info_hash)) or showError("Invalid info hash value.");
+					verifyHash($info_hash) or showError("Invalid info hash value.");
 				else
 					showError("Invalid info hash value.");
 				$usehash = true;
