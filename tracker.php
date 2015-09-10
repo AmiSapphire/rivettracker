@@ -22,9 +22,6 @@ if ($hiddentracker == true)
 		exit();
 	}
 }
-?>
-
-<?php
 
 header("Content-type: text/plain");
 header("Pragma: no-cache");
