@@ -394,10 +394,11 @@ if ($GLOBALS["countbytes"]) //stop count bytes variable
 	</tr></table></td></tr>
 <table>
 	<tr class="details">
-		<td align="left"><a href="http://www.rivetcode.com">RivetTracker</a>
+		<td align="left">
 		<?php
 		require("version.php");
-		print($version);
+		echo($id);
+		echo($version);
 		?>
 		</td>
 		<td align="right">

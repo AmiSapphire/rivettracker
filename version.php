@@ -1,3 +1,4 @@
 <?php
-echo "Version: 1.05.1";
+$id = "<a href=\"http://www.rivetcode.com\">RivetTracker</a>";
+$version = "Version: 1.05.1";
 ?>
