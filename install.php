@@ -94,22 +94,57 @@ HTML;
 // PHP Version
 $_GET['php_version'] = PHP_VERSION;
 	
-// Check 5.3
-if (version_compare(PHP_VERSION, '5.3.0', '>='))
+// Check 5.6
+if (version_compare(PHP_VERSION, '5.6.0*', '>='))
 	{
 echo <<<HTML
-<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.3+.</td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></table></font>
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.6+.</td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></table></font>
+HTML;
+	}
+	// Check 5.5
+	else if (version_compare(PHP_VERSION, '5.5.0*', '>='))
+	{
+echo <<<HTML
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.5+.</td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
+HTML;
+	}
+	// Check 5.4
+	else if (version_compare(PHP_VERSION, '5.4.0*', '>='))
+	{
+echo <<<HTML
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.4+.</td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
+HTML;
+	}
+	// Check 5.3
+	else if (version_compare(PHP_VERSION, '5.3.0*', '>='))
+	{
+echo <<<HTML
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.3+.</td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
+HTML;
+	}
+	// Check 5.2
+	else if (version_compare(PHP_VERSION, '5.2.0*', '>='))
+	{
+echo <<<HTML
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.2+. Update to PHP 5.3 or higher when possible. </td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
+HTML;
+	}
+	// Check 5.1
+	else if (version_compare(PHP_VERSION, '5.1.0*', '>='))
+	{
+echo <<<HTML
+<font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.1+. Update to PHP 5.3 or higher when possible. </td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
 HTML;
 	}
 	// Check 5.0
-	else if (version_compare(PHP_VERSION, '5.0.0', '>='))
+	else if (version_compare(PHP_VERSION, '5.0.0*', '>='))
 	{
 echo <<<HTML
 <font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server supports PHP 5.0+. Update to PHP 5.3 or higher when possible. </td><td class="c"><img src="./images/yes.png" class="icon" alt="Supported" /></td></tr></font>
 HTML;
 	}
 	// Does not support PHP 5
-	else if (version_compare(PHP_VERSION, '4.4.9', '<='))
+	else if (version_compare(PHP_VERSION, '4.4.9*', '<='))
 	{
 echo <<<HTML
 <font face="Verdana" size="3"><br><table><tr><th>PHP Version:</th></tr><tr><td class="a">{$_GET['php_version']}</td><td class="b">Your server does not support PHP 5. You may have issues running this tracker.</td><td class="c">&nbsp;<img src="./images/no.png" alt="Not Supported" </tr></table></font>
@@ -136,11 +171,14 @@ HTML;
 	}
 
 echo ("<br><br>");
-		if (version_compare(PHP_VERSION, '5.0.0', '>=') && class_exists('mysqli') || version_compare(PHP_VERSION, '5.0.0', '>=') && function_exists('mysql_connect')) echo "<center><font face=\"Verdana\">Fully supported. You may continue.</font></center>";
-		else if (version_compare(PHP_VERSION, '5.0.0', '>=') && !class_exists('mysqli') || version_compare(PHP_VERSION, '5.0.0', '>=') && !function_exists('mysql_connect')) die ("<center><font face=\"Verdana\">Fully supported, but cannot connect to database. You may not continue.</font></center>");
+		if (version_compare(PHP_VERSION, '5.3.0*', '>=') && class_exists('mysqli') || version_compare(PHP_VERSION, '5.3.0*', '>=') && function_exists('mysql_connect')) echo "<center><font face=\"Verdana\">Fully supported. You may continue.</font></center>";
+		else if (version_compare(PHP_VERSION, '5.3.0*', '>=') && !class_exists('mysqli') || version_compare(PHP_VERSION, '5.3.0*', '>=') && !function_exists('mysql_connect')) die ("<center><font face=\"Verdana\">Fully supported, but cannot connect to database. You may not continue.</font></center>");
 
-		if (version_compare(PHP_VERSION, '4.4.9', '<=') && class_exists('mysqli') || version_compare(PHP_VERSION, '4.4.9', '<=') && function_exists('mysql_connect')) echo "<center><font face=\"Verdana\">Not fully supported, but you may try.</font></center>";
-		else if (version_compare(PHP_VERSION, '4.4.9', '<=') && !class_exists('mysqli') || version_compare(PHP_VERSION, '4.4.9', '<=') && !function_exists('mysql_connect')) die("<center><font face=\"Verdana\">Not fully supported, also cannot connect to database. You may not continue.</font></center>");
+		if (version_compare(PHP_VERSION, '5.2.0*', '<=') && class_exists('mysqli') || version_compare(PHP_VERSION, '5.2.0*', '<=') && function_exists('mysql_connect')) echo "<center><font face=\"Verdana\">Supported. You may continue.</font></center>";
+		else if (version_compare(PHP_VERSION, '5.2.0*', '<=') && !class_exists('mysqli') || version_compare(PHP_VERSION, '5.2.0*', '<=') && !function_exists('mysql_connect')) die ("<center><font face=\"Verdana\">Supported, but cannot connect to database. You may not continue.</font></center>");
+
+		if (version_compare(PHP_VERSION, '4.4.9*', '<=') && class_exists('mysqli') || version_compare(PHP_VERSION, '4.4.9*', '<=') && function_exists('mysql_connect')) echo "<center><font face=\"Verdana\">Not fully supported, but you may try.</font></center>";
+		else if (version_compare(PHP_VERSION, '4.4.9*', '<=') && !class_exists('mysqli') || version_compare(PHP_VERSION, '4.4.9*', '<=') && !function_exists('mysql_connect')) die("<center><font face=\"Verdana\">Not fully supported, also cannot connect to database. You may not continue.</font></center>");
 		?>
 		<br>
 		<br>
@@ -280,8 +318,8 @@ echo ("<br><br>");
 		mysql_select_db("mysql") or die(errorMessage() . "Can't select db \"mysql\":" . mysql_error() . "</p>");
 
 		mysql_query("INSERT INTO user SET user=\"$username\", password=PASSWORD(\"$password\"), host=\"\"") or die(errorMessage() . "Can't make user: " . mysql_error() . "</p>");
-		mysql_query("INSERT INTO db SET Host=\"%\", db=\"$database\", user=\"$username\", select_priv='Y', Insert_priv='Y', Update_priv='Y', Delete_priv='Y', Create_priv='Y', Drop_priv='Y', Alter_priv='Y', index_priv='Y'") or die(errorMessage() . "Cannot insert into \"Db\": " . mysql_error() . "</p>");
-		mysql_query("CREATE DATABASE $database") or die(errorMessage() . "Can't make database: " . mysql_error() . "</p>");
+		mysql_query("INSERT INTO db SET Host=\"%\", db=\"$database\", user=\"$username\", select_priv='Y', Insert_priv='Y', Update_priv='Y', Delete_priv='Y', Create_priv='Y', Drop_priv='Y', Alter_priv='Y', index_priv='Y'") or die(errorMessage() . "Cannot insert into \"db\": " . mysql_error() . "</p>");
+		mysql_query("CREATE DATABASE `$database`") or die(errorMessage() . "Can't make database: " . mysql_error() . "</p>");
 		
 		mysql_query("FLUSH PRIVILEGES") or die(errorMessage() . "Can't flush privileges: " . mysql_error() . "</p>");
 	
@@ -767,7 +805,7 @@ echo ("<br><br>");
 		//display message to delete install.php file
 		echo "<p class=\"error\">Make sure you go and delete this installer script when you are done! (install.php)</p><br><br>\n";
 		echo "<p class=\"error\">Also, check the permissions and make sure the 'torrents' and 'rss' folders are able to be written to by the server.</p><br><br>\n";
-		echo "<br><center><a href=\"index.php\">Main Statistics Page</a></center>\n";		
+		echo "<br><center><a href=\"index.php\"><img src=\"images/stats.png\" border=\"0\" class=\"icon\" alt=\"Tracker Statistics\" title=\"Tracker Statistics\" />Main Statistics Page</a></center>\n";		
 		echo "</body></html>\n";
 	}
 
