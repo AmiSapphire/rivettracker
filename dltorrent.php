@@ -27,7 +27,7 @@ if ($GLOBALS["persist"])
 else
 	$db = mysql_connect($dbhost, $dbuser, $dbpass) or die(errorMessage() . "Tracker error: can't connect to database - " . mysql_error() . "</p>");
 mysql_select_db($database) or die(errorMessage() . "Tracker error: can't open database $database - " . mysql_error() . "</p>");
-$query = "SELECT filename FROM ".$prefix."namemap WHERE info_hash = '" . $_GET['hash'] . "'";
+$query = "SELECT filename FROM ".$prefix."namemap WHERE info_hash = '" . htmlentities($_GET['hash'], ENT_QUOTES, UTF-8) . "'";
 $results = mysql_query($query) or die(errorMessage() . "Can't do SQL query - " . mysql_error() . "</p>");
 $row = mysql_fetch_row($results);
 
