@@ -74,9 +74,9 @@ if (preg_match("/^Mozilla|^Opera|^Links|^Lynx/i", $agent))
 					$info_hash = stripslashes($_GET["info_hash"]);
 				else
 					$info_hash = $_GET["info_hash"];
-				if (strlen(htmlentities($_GET['hash'], ENT_QUOTES, UTF-8)) == 20)
+				if (strlen($info_hash) == 20)
 					$info_hash = bin2hex($info_hash);
-				else if (strlen(htmlentities($_GET['hash'], ENT_QUOTES, UTF-8)) == 40)
+				else if (strlen($info_hash) == 40)
 					verifyHash($info_hash) or showError("Invalid info hash value.");
 				else
 					showError("Invalid info hash value.");
