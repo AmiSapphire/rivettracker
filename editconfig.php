@@ -138,7 +138,7 @@ if (!isset($_POST["saveconfig"]))
 	Again, this user is only able to create, and not delete torrents to the tracker.
 	For full privileges, see the admin user.<br><br>
 	<input type="hidden" name="old_upload_password" value="<?php echo $temp;?>">
-	<b>Current MD5 hashed username+password: <?php echo $temp;?></b></td>
+	<b>Current hashed username+password: <?php echo $temp;?></b></td>
 	<td><input type="password" name="upload_password" size="40" value=""></td></tr>
 	<?php
 	$temp = fgets($fr);
@@ -157,7 +157,7 @@ if (!isset($_POST["saveconfig"]))
 	information about the tracker as well as access a few other important tools.
 	The admin is also able to upload torrents to the database.<br><br>
 	<input type="hidden" name="old_admin_password" value="<?php echo $temp;?>">
-	<b>Current MD5 hashed username+password: <?php echo $temp;?></b></td>
+	<b>Current hashed username+password: <?php echo $temp;?></b></td>
 	<td><input type="password" name="admin_password" size="40" value=""></td></tr>
 	<?php
 	$temp = fgets($fr);
@@ -462,19 +462,39 @@ if (isset($_POST["saveconfig"]))
 		exit();
 	}
 	
-	//calculate new MD5 password if needed
-	if ($_POST["upload_password"] != "")
+	//calculate new password if needed
+	$_GET['php_version'] = PHP_VERSION;
+	if (version_compare(PHP_VERSION, '5.5.0*', '>='))
 	{
-		$_POST["upload_password"] = md5($_POST["upload_username"].$_POST["upload_password"]);
+		if ($_POST["upload_password"] != "")
+		{
+			$_POST["upload_password"] = password_hash($_POST["upload_username"].$_POST["upload_password"], PASSWORD_BCRYPT);
+		}
+		else
+			$_POST["upload_password"] = $_POST["old_upload_password"];
+		if ($_POST["admin_password"] != "")
+		{
+			$_POST["admin_password"] = password_hash($_POST["admin_username"].$_POST["admin_password"], PASSWORD_BCRYPT);
+		}
+		else
+			$_POST["admin_password"] = $_POST["old_admin_password"];
 	}
-	else
-		$_POST["upload_password"] = $_POST["old_upload_password"];
-	if ($_POST["admin_password"] != "")
+	
+	else if (version_compare(PHP_VERSION, '5.4.0*', '<='))
 	{
-		$_POST["admin_password"] = md5($_POST["admin_username"].$_POST["admin_password"]);
+		if ($_POST["upload_password"] != "")
+		{
+			$_POST["upload_password"] = crypt($_POST["upload_username"].$_POST["upload_password"]);
+		}
+		else
+			$_POST["upload_password"] = $_POST["old_upload_password"];
+		if ($_POST["admin_password"] != "")
+		{
+			$_POST["admin_password"] = crypt($_POST["admin_username"].$_POST["admin_password"]);
+		}
+		else
+			$_POST["admin_password"] = $_POST["old_admin_password"];
 	}
-	else
-		$_POST["admin_password"] = $_POST["old_admin_password"];
 		
 	//check if config.php has write access
 	if (is_writable("config.php"))
