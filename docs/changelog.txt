@@ -1,6 +1,35 @@
 RivetTracker is a modified version of PHPBTTracker Version 1.5rc3, written by "DeHackEd".
+As of version 1.04, this is my version section. - Ami Sapphire
 
 Changes:
+
+---Version 1.05.2---
+
+-Proper version variable handling; prevent error log flood upon undefined version variable
+-MySQL databases with dashes supported (finally)! Simple backtick quotes around $database previously missing
+-Login password hashing no longer MD5, now either crypt or bcrypt depending on PHP version
+-More filtering behavior (Another reference: http://www.osvdb.org/79805)
+-Upload user can now have the ability to actually log out
+
+---Version 1.05.1---
+-Fixed really broken tracker.php from previous versions, especially from 1.05! This also fixes the torrent data scrape issue.
+-More changes to install.php (better PHP and MySQL check behavior), came from alpha MySQL to MySQLi conversion attempt of this tracker
+-Fixed username session display when hidden tracker is enabled
+-Old css.php XSS fix evaded in 1.05 (regression!), now fixed
+
+
+---Version 1.05---
+
+-Short announce feature is removed, as it is now integrated into the tracker, as is short scrape; replaced with a(n admittedly hardcoded) optional additional tracker URL behavior, can add up to five additional URLs
+-Authentication checks added to torrent_functions.php, tracker.php, dltorrent.php; the latter checks no matter what (2012 CVE report: http://www.cvedetails.com/cve/CVE-2012-4996/)
+-Old fixes from 2014 that I didn't keep track of or even remember (!): index.php, funcsv2.php, batch_upload.php, newtorrents.php, install.php, editconfig.php
+
+---Version 1.04---
+
+-More XSS attack prevention: css.php, among a few other files (old reference on forums)
+-Added short announce URL feature
+-Custom date feature
+-Added version display
 
 ---Version 1.03---
 
