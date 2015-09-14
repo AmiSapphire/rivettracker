@@ -13,7 +13,7 @@ if (!$_SESSION['admin_logged_in'] && !$_SESSION['upload_logged_in'])
 
 
 //if hash isn't of length 40, don't even bother connecting to database
-if (strlen($_GET['hash']) != 40)
+if (strlen(htmlentities($_GET['hash'], ENT_QUOTES, UTF-8)) != 40)
 {
 	header("index.php"); 	
   	exit();

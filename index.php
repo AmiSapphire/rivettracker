@@ -133,14 +133,14 @@ if (file_exists("rss/rss.xml"))
 	<?php
 	//Cleanup page number to prevent XSS
 	if (isset($_GET["page_number"])) {
-		$_GET["page_number"] = htmlspecialchars($_GET["page_number"]);
+		$_GET["page_number"] = htmlentities($_GET["page_number"], ENT_QUOTES);
 	} else {
 		$_GET["page_number"] = "";
 	}
 	$scriptname = htmlspecialchars($scriptname);
 	
 	if (!isset($_GET["activeonly"]))
-		$scriptname = $scriptname . "activeonly=	yes&amp;";
+		$scriptname = $scriptname . "activeonly=yes&amp;";
 	if (isset($_GET["seededonly"]) && !isset($_GET["activeonly"]))
 	{
 		$scriptname = $scriptname . "seededonly=yes&";
