@@ -184,7 +184,7 @@ function addTorrent()
 	$filename = htmlspecialchars(clean($filename));
 	$url = htmlspecialchars(mysql_real_escape_string($url));
 
-	if ((strlen($hash) != 40) || !verifyHash($hash))
+	if ((strlen(htmlentities($_GET['hash'], ENT_QUOTES, UTF-8)) != 40) || !verifyHash($hash))
 	{
 		echo errorMessage() . "Error: Info hash must be exactly 40 hex bytes.</p>\n";
 		endOutput();
