@@ -109,6 +109,12 @@ if ($hiddentracker == true)
 	echo "Hello, <i>" . $_SESSION["username"] . "</i><br>";
 	echo "<a href=\"authenticate.php?status=logout\"><img src=\"images/logout.png\" border=\"0\" class=\"icon\" alt=\"Logout\" title=\"Logout\" /></a><a href=\"authenticate.php?status=logout\">Logout</a>";
 }
+
+session_start();
+if ($_SESSION['upload_logged_in'])
+{
+	echo "<a href=\"authenticate.php?status=logout\"><img src=\"images/logout.png\" border=\"0\" class=\"icon\" alt=\"Logout\" title=\"Logout\" /></a><a href=\"authenticate.php?status=logout\">Logout</a>";
+}
 ?>
 </td>
 <td align="center">
