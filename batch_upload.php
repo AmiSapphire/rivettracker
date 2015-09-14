@@ -118,7 +118,7 @@ if (isset($_FILES["zipfile"]) && $_FILES["zipfile"]["error"] != 4 && isset($_FIL
 					$filename = stripslashes($filename);
 					$filename = clean($filename);
 				
-					if ((strlen(htmlentities($_GET['hash'], ENT_QUOTES, UTF-8)) != 40) || !verifyHash($hash))
+					if (strlen($hash) != 40) || !verifyHash($hash))
 					{
 						echo errorMessage() . "Error: Info hash must be exactly 40 hex bytes.</p>\n";
 						$error_status = false;
